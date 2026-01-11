@@ -8,7 +8,7 @@ function StarshipDetails() {
     state.starships.list.find(s => s.url.includes(`/${id}/`))
   );
 
-  if (!ship) return <div className="p-10 text-center">Nau no trobada...</div>;
+  if (!ship) return <div className="p-10 text-center">Star ship not found...</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-10">

@@ -33,7 +33,8 @@ const starshipsSlice = createSlice({
         // Afegim les naus noves a les que ja teníem
         //Spread opertor,  ...state.list: Vol dir "agafa les naus que ja teníem guardades
         //...action.payload: Vol dir "afegeix les naus noves que acaben d'arribar
-        state.list = action.payload;
+        state.list = [...state.list, ...action.payload];
+        state.page +=1;
       })
       // Cas 3: El missatger ha tingut un problema
       .addCase(fetchStarships.rejected, (state, action) => {

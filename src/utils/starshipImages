@@ -1,0 +1,16 @@
+const starshipImages = [
+  '/starships/starship1.png',
+  '/starships/starship2.png',
+  '/starships/starship3.png',
+  '/starships/starship4.png',
+  '/starships/starship5.png',
+  '/starships/starship6.png',
+  '/starships/starship7.png',
+  '/starships/starship8.png',
+];
+
+const getRandomImage = () => {
+  const index = Math.floor(Math.random() * starshipImages.length);
+  return starshipImages[index];
+};
+export default getRandomImage;

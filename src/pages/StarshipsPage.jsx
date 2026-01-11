@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStarships } from '../features/starships/starshipsSlice';
-
 import { Link } from 'react-router-dom';
+import { ViewMoreButton } from '../components/ViewMoreButton';
+import { StarshipCard } from '../components/StarshipCard';
 
 export function StarshipsPage() {
   const dispatch = useDispatch();
   
   // Agafem les dades del magatzem de Redux
-  const { list, status, error } = useSelector((state) => state.starships);
+  const { list, status, error, page } = useSelector((state) => state.starships);
 
   useEffect(() => {
     // Si no hem començat a carregar, enviem el missatger
@@ -16,6 +17,11 @@ export function StarshipsPage() {
       dispatch(fetchStarships(1));
     }
   }, [status, dispatch]);
+
+  // FUNCIÓ per carregar la següent pàgina
+  const handleViewMore = () => {
+    dispatch(fetchStarships(page));
+  };
 
   return (
     <div className="min-h-screen bg-black text-white p-10">
@@ -28,13 +34,17 @@ export function StarshipsPage() {
         <p className="text-yellow-500 animate-pulse text-center">Loading from a galaxy far, far away...</p>
       )}
 
-      {/* Si hi ha un error */}
       {status === 'failed' && (
         <p className="text-red-500 bg-red-900/20 p-4 rounded text-center">Error: {error}</p>
       )}
 
+      {/* Només ensenyem el botó si no estem carregant i hi ha naus */}
+      {status !== 'loading' && list.length > 0 && (
+        <ViewMoreButton onClick={handleViewMore} />
+      )}
+
       {/* Si tot ha anat bé, pintem la llista */}
-      <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
       
 
@@ -44,16 +54,15 @@ export function StarshipsPage() {
   const id = ship.url.split('/').filter(Boolean).pop();
            
 
-  return (
-    <Link 
-      to={`/starships/${id}`} 
-      key={id}
-      className="block bg-zinc-900 p-6 rounded hover:bg-zinc-800 transition-colors border-l-2 border-zinc-700 mb-4"
-    >
-      <h2 className="text-xl font-bold uppercase">{ship.name}</h2>
-      <p className="text-zinc-400">{ship.model}</p>
-    </Link>
-  );
+// CRIDEM AL COMPONENT, que és qui té la lògica de la imatge
+    return (
+      <StarshipCard 
+        key={ship.url} 
+        id={id} 
+        name={ship.name} 
+        model={ship.model} 
+      />
+    );
 })}
       </div>
     </div>
