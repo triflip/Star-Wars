@@ -7,6 +7,7 @@ export const StarshipCard = ({ id, name, model }) => {
   return (
     <Link
       to={`/starships/${id}`}
+      state={{ image: imageURL }}
       className="flex bg-zinc-900 rounded hover:bg-zinc-800 transition-all border border-zinc-800 hover:border-zinc-600 mb-4 overflow-hidden group"
     >
       {/* Contenidor de la imatge */}

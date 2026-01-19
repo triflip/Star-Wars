@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 //Primer definim com està la nostra aplicació quan s'obre per primer cop, abans de fer res
 // Comencem amb una llista buida.
 // 'idle' vol dir "en repòs". Altres estats: 'loading', 'succeeded', 'failed'.
@@ -9,14 +8,15 @@ import axios from "axios";
 // Comencem demanant la pàgina 1.
 
 const initialState = {
-    list: [],
-    status: "idle",
-    error: null, 
-    page: 1
+  list: [],
+  status: "idle",
+  error: null,
+  page: 1,
+  hasMore: true,
 };
 
 const starshipsSlice = createSlice({
-  name: 'starships',
+  name: "starships",
   initialState,
   reducers: {
     // Aquí podríem posar accions "síncrones", com per exemple "netejar llista"
@@ -25,20 +25,33 @@ const starshipsSlice = createSlice({
     builder
       // Cas 1: El missatger acaba de sortir cap a l'API
       .addCase(fetchStarships.pending, (state) => {
-        state.status = 'loading'; // Posem el cartell de "Carregant..."
+        state.status = "loading"; // Posem el cartell de "Carregant..."
       })
       // Cas 2: El missatger torna amb èxit i porta les naus
       .addCase(fetchStarships.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        // Afegim les naus noves a les que ja teníem
-        //Spread opertor,  ...state.list: Vol dir "agafa les naus que ja teníem guardades
-        //...action.payload: Vol dir "afegeix les naus noves que acaben d'arribar
-        state.list = [...state.list, ...action.payload];
-        state.page +=1;
+        state.status = "succeeded";
+
+        // Ara action.payload és l'objecte sencer (amb results i next)
+        const newShips = action.payload.results;
+        const nextUrl = action.payload.next;
+
+        const filteredNewShips = newShips.filter(
+          (newShip) =>
+            !state.list.some((existingShip) => existingShip.url === newShip.url)
+        );
+
+        state.list = [...state.list, ...filteredNewShips];
+
+        if (nextUrl) {
+          state.page += 1;
+          state.hasMore = true;
+        } else {
+          state.hasMore = false; // JA NO HI HA MÉS PÀGINES
+        }
       })
       // Cas 3: El missatger ha tingut un problema
       .addCase(fetchStarships.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       });
   },
@@ -48,14 +61,15 @@ export default starshipsSlice.reducer;
 
 // Aquest és el "Thunk". És una funció que gestiona l'asincronia.
 export const fetchStarships = createAsyncThunk(
-  'starships/fetchStarships', // Nom de l'acció (pots posar el que vulguis, però aquest és l'estàndard)
-  async (page) => {
-    // Aquí fem la crida real a la web de Star Wars
-    const response = await axios.get(`https://swapi.py4e.com/api/starships/?page=${page}`);
-    
-    // El que fem aquí és "extreure" només les naus de la resposta del servidor
-    // L'API de Star Wars ens torna un objecte amb moltes coses, 
-    // però les naus estan a la propietat .results
-    return response.data.results; 
+  "starships/fetchStarships",
+  async (page, { getState }) => {
+    // Si per algun motiu es crida quan hasMore és false, cancel·lem
+    const { hasMore } = getState().starships;
+    if (!hasMore) throw new Error("No more pages");
+
+    const response = await axios.get(
+      `https://swapi.py4e.com/api/starships/?page=${page}`
+    );
+    return response.data;
   }
 );

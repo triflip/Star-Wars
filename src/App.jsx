@@ -1,17 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import StarshipsPage from './pages/StarshipsPage';
 import StarshipDetails from './pages/StarshipDetails';
+import { Header } from './components/Header';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-black text-white">
-        {/*  Header més endavant */}
-        <Routes>
-          <Route path="/" element={<StarshipsPage />} />
-          {/* Ruta per al detall (la farem en el següent pas) */}
-          <Route path="/starships/:id" element={<StarshipDetails />} />
-        </Routes>
+     
+      <div className="min-h-screen text-zinc-200 selection:bg-yellow-400">
+        <Header />
+        <main className="max-w-7xl mx-auto pb-20 px-4">
+          <Routes>
+            <Route path="/" element={<StarshipsPage />} />
+            <Route path="/starships/:id" element={<StarshipDetails />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );

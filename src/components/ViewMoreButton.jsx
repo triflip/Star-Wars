@@ -4,7 +4,7 @@ export const ViewMoreButton = ({ onClick }) => {
       <button 
         onClick={onClick}
         className="px-8 py-3 bg-transparent text-zinc-400 border border-zinc-700 rounded-md 
-                   hover:bg-zinc-800 hover:text-white hover:border-zinc-500 
+                   hover:bg-zinc-800 hover:text-yellow-400 hover:border-zinc-500 
                    transition-all duration-300 uppercase tracking-widest text-sm font-bold"
       >
         View More
