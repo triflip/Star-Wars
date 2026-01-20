@@ -2,8 +2,19 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import StarshipsPage from './pages/StarshipsPage';
 import StarshipDetails from './pages/StarshipDetails';
 import { Header } from './components/Header';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { checkAuth } from './features/auth/authSlice';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Només arrencar l'App, mirem si l'usuari ja estava loguejat anteriorment
+    dispatch(checkAuth());
+  }, [dispatch]);
+
   return (
     <Router>
      
