@@ -2,72 +2,107 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-// Importem la teva imatge
 import backgroundImage from '../assets/background/Copilot_20260120_125712.png'; 
 
+// IMPORTEM LES EINES DE FIREBASE
+import { auth } from '../firebase/config';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword 
+} from 'firebase/auth';
+
 export function WelcomePage() {
-  const [showLogin, setShowLogin] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false); // Canvia entre login i registre
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(''); // Firebase necessita password!
+  const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLoginSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email.trim() !== '') {
-      dispatch(login({ email, name: email.split('@')[0] }));
+    setError(null);
+
+    try {
+      let userCredential;
+      
+      if (isRegistering) {
+        // REGISTRE NOU USUARI
+        userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        // LOGIN USUARI EXISTENT
+        userCredential = await signInWithEmailAndPassword(auth, email, password);
+      }
+
+      const user = userCredential.user;
+      
+      // Guardem a Redux (el nom serà la part d'abans de l'@)
+      dispatch(login({ 
+        email: user.email, 
+        name: user.email.split('@')[0] 
+      }));
+
       navigate('/starships');
+    } catch (err) {
+      // Gestió d'errors (ex: email ja existent, password curt, etc.)
+      setError(err.message);
     }
   };
 
   return (
     <div 
-      className="h-screen w-full flex items-center justify-center bg-black bg-cover bg-center bg-no-repeat relative"
-      style={{ backgroundImage: `url(${backgroundImage})` }} // Posem la teva imatge de fons
+      className="h-screen w-full flex items-center justify-center bg-black bg-cover bg-center relative"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      {/* Capa fosca opcional per si vols que el fons es vegi una mica més fosc quan surti el login */}
-      <div className={`absolute inset-0 bg-black transition-opacity duration-1000 ${showLogin ? 'opacity-60' : 'opacity-0'}`}></div>
-
-      {!showLogin ? (
-        /* ÀREA CLICABLE INVISIBLE (o semi-invisible) SOBRE EL LOGO */
-        <div 
-          onClick={() => setShowLogin(true)}
-          className="z-10 cursor-pointer p-20 group flex flex-col items-center"
-        >
-          {/* Un cercle de llum molt suau per indicar que es pot clicar */}
-          <div className="w-64 h-32 border-2 border-yellow-500/0 group-hover:border-yellow-500/20 rounded-full transition-all duration-500 flex items-center justify-center">
-             <span className="text-yellow-500 text-[10px] tracking-[1em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
-               Enter
-             </span>
+      {!showForm ? (
+        <div onClick={() => setShowForm(true)} className="cursor-pointer p-20 group">
+          <div className="w-64 h-32 border-2 border-yellow-500/0 group-hover:border-yellow-500/20 rounded-full flex items-center justify-center transition-all">
+             <span className="text-yellow-500 text-[10px] tracking-[1em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">Enter</span>
           </div>
         </div>
       ) : (
-        /* FORMULARI DE LOGIN */
         <div className="z-20 animate-fade-in w-full max-w-sm px-6">
-          <form onSubmit={handleLoginSubmit} className="space-y-6 bg-black/40 p-8 rounded-lg backdrop-blur-sm border border-white/10">
+          <form onSubmit={handleSubmit} className="space-y-4 bg-black/60 p-8 rounded-lg backdrop-blur-md border border-white/10">
+            <h2 className="text-white text-center text-xs tracking-[0.4em] uppercase mb-6">
+              {isRegistering ? 'New Cadet Registration' : 'Imperial Identity'}
+            </h2>
+
+            {error && <p className="text-red-500 text-[10px] text-center uppercase mb-4 italic">{error}</p>}
+
             <input 
-              autoFocus
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="IMPERIAL EMAIL"
-              className="w-full bg-transparent border-b border-zinc-500 py-3 text-white text-center focus:outline-none focus:border-yellow-500 transition-colors tracking-widest uppercase text-sm"
+              placeholder="EMAIL"
+              className="w-full bg-transparent border-b border-zinc-700 py-2 text-white text-center focus:outline-none focus:border-yellow-500 text-sm"
+              required
+            />
+
+            <input 
+              type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="PASSWORD"
+              className="w-full bg-transparent border-b border-zinc-700 py-2 text-white text-center focus:outline-none focus:border-yellow-500 text-sm"
               required
             />
             
-            <button 
-              type="submit"
-              className="w-full border border-yellow-500 text-yellow-500 py-3 text-xs font-bold uppercase tracking-[0.3em] hover:bg-yellow-500 hover:text-black transition-all"
-            >
-              Verify Identity
+            <button type="submit" className="w-full border border-yellow-500 text-yellow-500 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">
+              {isRegistering ? 'Create Account' : 'Login'}
             </button>
 
-            <button 
-              type="button" 
-              onClick={() => setShowLogin(false)}
-              className="w-full text-zinc-500 text-[9px] uppercase tracking-widest hover:text-white"
-            >
-              Back
-            </button>
+            <div className="flex flex-col gap-2 mt-4">
+              <button 
+                type="button" 
+                onClick={() => setIsRegistering(!isRegistering)}
+                className="text-zinc-400 text-[9px] uppercase tracking-widest hover:text-yellow-500"
+              >
+                {isRegistering ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
+              </button>
+              <button type="button" onClick={() => setShowForm(false)} className="text-zinc-600 text-[9px] uppercase hover:text-white">Back</button>
+            </div>
           </form>
         </div>
       )}

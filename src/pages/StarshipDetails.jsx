@@ -1,19 +1,44 @@
 import { useParams, useLocation, useNavigate} from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import fetchStarships from '../features/starships/starshipsSlice.js';
 
 function StarshipDetails() {
   const { id } = useParams();
-  const location = useLocation();  //capturem l'estat enviat des de la Card
+  const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // Busquem la nau dins de la llista que ja tenim a Redux
+  // 1. Busquem la nau a la Store
   const ship = useSelector((state) => 
     state.starships.list.find(s => s.url.includes(`/${id}/`))
   );
 
-  const shipImage = location.state?.image || '/starships/statship1.png';
+  // 2. Mirem si la llista de Redux està buida (típic de F5)
+  const isListEmpty = useSelector((state) => state.starships.list.length === 0);
+  const { status } = useSelector((state) => state.starships); // Per saber si està carregant
 
-  if (!ship) return <div className="p-10 text-center">Star ship not found...</div>;
+  useEffect(() => {
+    // Si no hi ha naus a Redux, disparem l'acció de carregar-les totes
+    if (isListEmpty && status !== 'loading') {
+      // AQUÍ: Usa el nom de la teva acció de Redux (potser es diu fetchStarships o getStarships)
+      dispatch(fetchStarships()); 
+    }
+  }, [isListEmpty, status, dispatch]);
+
+  // 3. MENTRE CARREGA O NO TROBA LA NAU
+  if (isListEmpty || !ship) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-black">
+        <div className="text-yellow-500 uppercase tracking-[0.3em] text-xs animate-pulse">
+          Re-establishing connection with Starship Database...
+        </div>
+      </div>
+    );
+  }
+
+  // 4. LA IMATGE (Amb fallback si el F5 esborra el location.state)
+  const shipImage = location.state?.image || `https://starwars-visualguide.com/assets/img/starships/${id}.jpg`;
 
   return (
     <div className="max-w-5xl mx-auto p-6 md:p-10">

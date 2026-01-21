@@ -3,27 +3,26 @@ import StarshipsPage from './pages/StarshipsPage';
 import StarshipDetails from './pages/StarshipDetails';
 import { WelcomePage } from './pages/WelcomePage';
 import { Header } from './components/Header';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { checkAuth } from './features/auth/authSlice';
+import { login, logout } from './features/auth/authSlice'; // Importem login/logout
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { onAuthStateChanged } from 'firebase/auth'; // Import de Firebase
+import { auth } from './firebase/config'; // La teva config
 
-// 1. Creem un component intern per poder usar useLocation
 function Layout() {
   const location = useLocation();
-  
-  // 2. Definim que si estem a "/", showHeader és fals
   const showHeader = location.pathname !== '/';
 
   return (
-    <div className="min-h-screen text-zinc-200 selection:bg-yellow-400">
-      {/* 3. El Header només es renderitza si showHeader és true */}
+    <div className="min-h-screen text-zinc-200 selection:bg-yellow-400 bg-[#0a0a0a]">
       {showHeader && <Header />}
       
       <main className={`${showHeader ? 'max-w-7xl mx-auto pb-20 px-4' : ''}`}>
         <Routes>
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/starships" element={<StarshipsPage />} />
-          <Route path="/starships/:id" element={<StarshipDetails />} />
+          <Route path="/starships" element={<ProtectedRoute><StarshipsPage /></ProtectedRoute>} />
+          <Route path="/starships/:id" element={<ProtectedRoute><StarshipDetails /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>
@@ -32,13 +31,41 @@ function Layout() {
 
 function App() {
   const dispatch = useDispatch();
+  const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
-    dispatch(checkAuth());
+    // Escoltador de Firebase: La Font de la Veritat
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        // Si hi ha usuari a Firebase, l'injectem a Redux
+        dispatch(login({ 
+          email: firebaseUser.email, 
+          name: firebaseUser.email.split('@')[0] 
+        }));
+      } else {
+        // Si no, netegem Redux
+        dispatch(logout());
+      }
+      
+      // Ja hem comprovat l'estat, podem renderitzar l'app
+      setInitializing(false);
+    });
+
+    return () => unsubscribe(); // Netegem l'escoltador
   }, [dispatch]);
 
+  // Si l'app s'està iniciant (comprovant Firebase), mostrem pantalla de càrrega
+  if (initializing) {
+    return (
+      <div className="h-screen w-full bg-black flex items-center justify-center">
+        <div className="text-yellow-500 tracking-[0.5em] uppercase text-xs animate-pulse font-bold">
+          Transmitting Data...
+        </div>
+      </div>
+    );
+  }
+
   return (
-    // 4. El Router envolta el Layout per donar-li el context de les rutes
     <Router>
       <Layout />
     </Router>
