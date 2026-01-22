@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchStarships } from '../features/starships/starshipsSlice';
+import { fetchStarships } from '../features/starships/starshipSlice';
 import { StarshipCard } from '../components/StarshipCard';
 
 export function StarshipsPage() {

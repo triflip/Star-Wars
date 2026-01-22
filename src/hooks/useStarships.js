@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchStarships } from '../store/slices/starshipsSlice';
+import { fetchStarships } from '../features/starships/starshipSlice';
 
 export const useStarships = (id = null) => {
   const dispatch = useDispatch();
