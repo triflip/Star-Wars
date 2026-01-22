@@ -1,7 +1,3 @@
-//Aquest hook és purament de "consulta". Rep un array d'URLs i ens torna les dades ja cuinades.
-// que ens servirà per als pilots i les pel·lícules:
-
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -11,28 +7,32 @@ export const useFetchRelated = (urls) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Si no hi ha URLs (per exemple, la nau encara no s'ha carregat), sortim
+    // Si no hi ha URLs, buidem les dades i sortim
     if (!urls || urls.length === 0) {
-        setData([]);
-        return;
+      setData([]);
+      return;
     }
-        
 
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Promise.all executa totes les crides en paral·lel (més ràpid!)
-        const responses = await Promise.all(urls.map(url => axios.get(url)));
+        // Fem totes les crides en paral·lel per eficiència
+        const responses = await Promise.all(
+          urls.map((url) => axios.get(url))
+        );
         // Extraiem només la part .data de cada resposta d'Axios
-        setData(responses.map(res => res.data));
-      } catch (error) {
-        console.error("Error cloading related data:", error);
+        setData(responses.map((res) => res.data));
+        setError(null);
+      } catch (err) {
+        console.error("Error in useFetchRelated:", err);
+        setError(err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [urls]);// S'activa quan l'array d'URLs canvia (p.ex. en canviar de nau)
+  }, [urls]); // S'activa quan l'array d'URLs canvia (p.ex. en canviar de nau)
+
   return { data, loading, error };
 };
