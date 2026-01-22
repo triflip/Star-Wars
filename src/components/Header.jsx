@@ -5,17 +5,34 @@ import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
 
+// Subcomponent per no repetir codi de xarxes
+const SocialLinks = ({ links }) => (
+  <div className="flex gap-6 text-zinc-500 text-lg">
+    {Object.entries(links).map(([icon, url]) => (
+      <a 
+        key={icon} 
+        href={url} 
+        target="_blank" 
+        rel="noreferrer"
+        className="w-5 h-5 invert transition-transform duration-300 hover:scale-125"
+      >
+        <img src={`/social-icons/${icon}.svg`} alt={icon} className="w-5 h-5" />
+      </a>
+    ))}
+  </div>
+);
+
 export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoggedIn, user } = useSelector((state) => state.auth);
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      dispatch(logout());1
+      dispatch(logout());
+      setIsOpen(false);
       navigate('/');
     } catch (error) {
       console.error("Error tancant sessió:", error);
@@ -30,27 +47,16 @@ export const Header = () => {
   };
 
   return (
-    <header className="text-white border-b border-zinc-800">
-
+    <header className="text-white border-b border-zinc-800 bg-black/95 sticky top-0 z-50 backdrop-blur-sm">  
       {/* TOP BAR — Desktop */}
       <div className="hidden md:flex justify-between items-center px-10 py-6 max-w-7xl mx-auto">
-
-        {/* Xarxes socials */}
-        <div className="flex-1 flex gap-6 text-zinc-500 text-lg">
-          {Object.entries(socialLinks).map(([icon, url]) => (
-            <a 
-              key={icon} 
-              href={url} 
-              target="_blank" 
-              rel="noreferrer"
-              className="w-5 h-5 invert transition-transform duration-300 hover:scale-125"
-            >
-              <img src={`/social-icons/${icon}.svg`} alt={icon} className="w-5 h-5" />
-            </a>
-          ))}
+        
+        {/* Esquerra: Xarxes */}
+        <div className="flex-1">
+          <SocialLinks links={socialLinks} />
         </div>
 
-        {/* Logo */}
+        {/* Centre: Logo */}
         <div className="flex justify-center">
           <Link to="/">
             <img 
@@ -61,7 +67,7 @@ export const Header = () => {
           </Link>
         </div>
 
-        {/* Auth */}
+        {/* Dreta: Auth amb el Pilot ben visible */}
         <div className="flex-1 flex justify-end items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-zinc-400">
           {isLoggedIn ? (
             <>
@@ -83,25 +89,10 @@ export const Header = () => {
 
       {/* MOBILE HEADER */}
       <div className="md:hidden flex justify-between items-center px-6 py-4">
-
-        {/* Hamburguesa */}
-        <button 
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-2xl text-zinc-300"
-        >
-          ☰
-        </button>
-
-        {/* Logo petit */}
+        <button onClick={() => setIsOpen(!isOpen)} className="text-2xl text-zinc-300">☰</button>
         <Link to="/" className="flex justify-center flex-1">
-          <img 
-            src="/logo/star_wars_logo.png"
-            alt="Star Wars" 
-            className="w-32 h-auto object-contain" 
-          />
+          <img src="/logo/star_wars_logo.png" alt="Star Wars" className="w-32 h-auto object-contain" />
         </Link>
-
-        {/* Placeholder per simetria */}
         <div className="w-6"></div>
       </div>
 
@@ -116,26 +107,12 @@ export const Header = () => {
       <nav className="hidden md:block border-y border-zinc-800">
         <ul className="flex justify-center gap-8 text-[10px] font-bold tracking-[0.2em] uppercase py-4">
           <li>
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => 
-                `pb-4 border-b-2 transition-all duration-300 ${
-                  isActive ? 'border-yellow-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'
-                }`
-              }
-            >
+            <NavLink to="/" className={({ isActive }) => `pb-4 border-b-2 transition-all duration-300 ${isActive ? 'border-yellow-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink 
-              to="/starships" 
-              className={({ isActive }) => 
-                `pb-4 border-b-2 transition-all duration-300 ${
-                  isActive ? 'border-yellow-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'
-                }`
-              }
-            >
+            <NavLink to="/starships" className={({ isActive }) => `pb-4 border-b-2 transition-all duration-300 ${isActive ? 'border-yellow-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}>
               Starships
             </NavLink>
           </li>
@@ -145,47 +122,14 @@ export const Header = () => {
       {/* MOBILE MENU */}
       {isOpen && (
         <div className="md:hidden bg-black border-t border-zinc-800 px-6 py-4 space-y-4">
-
-          {/* Navegació */}
-          <NavLink 
-            to="/" 
-            onClick={() => setIsOpen(false)} 
-            className="block text-zinc-300 uppercase tracking-widest"
-          >
-            Home
-          </NavLink>
-
-          <NavLink 
-            to="/starships" 
-            onClick={() => setIsOpen(false)} 
-            className="block text-zinc-300 uppercase tracking-widest"
-          >
-            Starships
-          </NavLink>
-
+          <NavLink to="/" onClick={() => setIsOpen(false)} className="block text-zinc-300 uppercase tracking-widest">Home</NavLink>
+          <NavLink to="/starships" onClick={() => setIsOpen(false)} className="block text-zinc-300 uppercase tracking-widest">Starships</NavLink>
           <div className="border-t border-zinc-700 pt-4 space-y-4">
-
-            {/* Xarxes */}
             <div className="flex gap-4">
-              {Object.entries(socialLinks).map(([icon, url]) => (
-                <a 
-                  key={icon} 
-                  href={url} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="w-5 h-5 invert"
-                >
-                  <img src={`/social-icons/${icon}.svg`} alt={icon} className="w-5 h-5" />
-                </a>
-              ))}
+              <SocialLinks links={socialLinks} />
             </div>
-
-            {/* Logout */}
             {isLoggedIn && (
-              <button 
-                onClick={handleLogout}
-                className="text-zinc-300 uppercase tracking-widest text-sm"
-              >
+              <button onClick={handleLogout} className="text-zinc-300 uppercase tracking-widest text-sm">
                 Log Out
               </button>
             )}

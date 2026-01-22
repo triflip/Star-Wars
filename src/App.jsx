@@ -1,24 +1,23 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useAuthListener } from './hooks/useAuthListener';
+
+// Importa els teus components i pàgines
+import { Header } from './components/Header';
+import { WelcomePage } from './pages/WelcomePage';
 import StarshipsPage from './pages/StarshipsPage';
 import StarshipDetails from './pages/StarshipDetails';
-import { WelcomePage } from './pages/WelcomePage';
-import { Header } from './components/Header';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login, logout } from './features/auth/authSlice'; // Importem login/logout
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { onAuthStateChanged } from 'firebase/auth'; // Import de Firebase
-import { auth } from './firebase/config'; // La teva config
 
+// 1. El component Layout gestiona la part visual i el fons negre
 function Layout() {
   const location = useLocation();
   const showHeader = location.pathname !== '/';
 
   return (
-    <div className="min-h-screen text-zinc-200 selection:bg-yellow-400 bg-[#0a0a0a]">
+    <div className="min-h-screen text-zinc-200 selection:bg-yellow-400 bg-black">
       {showHeader && <Header />}
       
-      <main className={`${showHeader ? 'max-w-7xl mx-auto pb-20 px-4' : ''}`}>
+      <main className={`${showHeader ? 'max-w-7xl mx-auto pb-20 px-4 pt-8' : ''}`}>
         <Routes>
           <Route path="/" element={<WelcomePage />} />
           <Route path="/starships" element={<ProtectedRoute><StarshipsPage /></ProtectedRoute>} />
@@ -29,32 +28,10 @@ function Layout() {
   );
 }
 
-function App() {
-  const dispatch = useDispatch();
-  const [initializing, setInitializing] = useState(true);
+// 2. El component App principal
+export default function App() {
+  const { initializing } = useAuthListener();
 
-  useEffect(() => {
-    // Escoltador de Firebase: La Font de la Veritat
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        // Si hi ha usuari a Firebase, l'injectem a Redux
-        dispatch(login({ 
-          email: firebaseUser.email, 
-          name: firebaseUser.email.split('@')[0] 
-        }));
-      } else {
-        // Si no, netegem Redux
-        dispatch(logout());
-      }
-      
-      // Ja hem comprovat l'estat, podem renderitzar l'app
-      setInitializing(false);
-    });
-
-    return () => unsubscribe(); // Netegem l'escoltador
-  }, [dispatch]);
-
-  // Si l'app s'està iniciant (comprovant Firebase), mostrem pantalla de càrrega
   if (initializing) {
     return (
       <div className="h-screen w-full bg-black flex items-center justify-center">
@@ -71,5 +48,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
