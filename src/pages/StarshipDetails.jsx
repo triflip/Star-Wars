@@ -30,10 +30,6 @@ function StarshipDetails() {
 
   return (
   <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-10 text-zinc-300">
-    {/* Botó Back */}
-    <button onClick={() => navigate(-1)} className="mb-6 uppercase text-[10px] tracking-widest flex items-center gap-2 hover:text-white transition-colors">
-      <span className="text-lg">←</span> Back to list
-    </button>
 
     {/* GRID PRINCIPAL: 1 columna mòbil, 3 columnes a Desktop (1 per imatge, 2 per info) */}
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -53,23 +49,53 @@ function StarshipDetails() {
       <div className="lg:col-span-2 space-y-8">
         
         {/* Box de Dades Tècniques */}
-        <div className="bg-zinc-900 p-6 sm:p-8 rounded-lg border border-zinc-800 shadow-xl">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-yellow-500 uppercase italic tracking-tighter">
-            {ship.name}
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="space-y-3">
-               <p><span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest">Model</span> {ship.model}</p>
-               <p><span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest">Manufacturer</span> {ship.manufacturer}</p>
-               <p><span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest">Cost</span> {ship.cost_in_credits}</p>
-            </div>
-            <div className="space-y-3">
-               <p><span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest">Length</span> {ship.length}m</p>
-               <p><span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest">Crew</span> {ship.crew}</p>
-               <p><span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest">Speed</span> {ship.max_atmosphering_speed}</p>
-            </div>
-          </div>
-        </div>
+        {/* Box de Dades Tècniques - Ara amb 3 columnes */}
+<div className="bg-zinc-900 p-6 sm:p-8 rounded-lg border border-zinc-800 shadow-xl">
+  <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-yellow-500 uppercase italic tracking-tighter">
+    {ship.name}
+  </h1>
+  
+  {/* GRID: 1 columna en mòbil, 2 en tablet, 3 en desktop */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    
+    {/* Columna 1: Identificació */}
+    <div className="space-y-4">
+      <p>
+        <span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest mb-1">Model</span> 
+        <span className="text-sm">{ship.model}</span>
+      </p>
+      <p>
+        <span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest mb-1">Manufacturer</span> 
+        <span className="text-sm">{ship.manufacturer}</span>
+      </p>
+    </div>
+
+    {/* Columna 2: Dimensions i Personal */}
+    <div className="space-y-4">
+      <p>
+        <span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest mb-1">Length</span> 
+        <span className="text-sm">{ship.length}m</span>
+      </p>
+      <p>
+        <span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest mb-1">Crew</span> 
+        <span className="text-sm">{ship.crew}</span>
+      </p>
+    </div>
+
+    {/* Columna 3: Economia i Rendiment */}
+    <div className="space-y-4">
+      <p>
+        <span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest mb-1">Cost</span> 
+        <span className="text-sm">{ship.cost_in_credits}</span>
+      </p>
+      <p>
+        <span className="text-zinc-500 uppercase text-[10px] block font-bold tracking-widest mb-1">Max Speed</span> 
+        <span className="text-sm">{ship.max_atmosphering_speed}</span>
+      </p>
+    </div>
+
+  </div>
+</div>
 
         {/* Sub-grid per a Pilots i Pelis (Es posen de costat en pantalles grans) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -107,6 +133,10 @@ function StarshipDetails() {
               </ul>
             )}
           </section>
+    {/* Botó Back */}
+    <button onClick={() => navigate(-1)} className="mb-6 uppercase text-[10px] tracking-widest flex items-center gap-2 hover:text-white transition-colors">
+      <span className="text-lg">←</span> Back to list
+    </button>
         </div>
       </div>
     </div>
