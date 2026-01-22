@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../assets/background/Copilot_20260120_125712.png'; 
 
-// IMPORTEM LES EINES DE FIREBASE
+
 import { auth } from '../firebase/config';
 import { 
   signInWithEmailAndPassword, 
@@ -13,9 +12,9 @@ import {
 
 export function WelcomePage() {
   const [showForm, setShowForm] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false); // Canvia entre login i registre
+  const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState(''); // Firebase necessita password!
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
@@ -27,18 +26,15 @@ export function WelcomePage() {
 
     try {
       let userCredential;
-      
+
       if (isRegistering) {
-        // REGISTRE NOU USUARI
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
       } else {
-        // LOGIN USUARI EXISTENT
         userCredential = await signInWithEmailAndPassword(auth, email, password);
       }
 
       const user = userCredential.user;
-      
-      // Guardem a Redux (el nom serà la part d'abans de l'@)
+
       dispatch(login({ 
         email: user.email, 
         name: user.email.split('@')[0] 
@@ -46,37 +42,110 @@ export function WelcomePage() {
 
       navigate('/starships');
     } catch (err) {
-      // Gestió d'errors (ex: email ja existent, password curt, etc.)
       setError(err.message);
     }
   };
 
   return (
     <div 
-      className="h-screen w-full flex items-center justify-center bg-black bg-cover bg-center relative"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
+      className="
+        min-h-screen w-full flex flex-col items-center justify-center 
+        bg-black 
+        md:bg-[url('/src/assets/background/dsk_bg.png')]
+        md:bg-cover md:bg-center
+        px-4
+      "
     >
-      {!showForm ? (
-        <div onClick={() => setShowForm(true)} className="cursor-pointer p-20 group">
-          <div className="w-64 h-32 border-2 border-yellow-500/0 group-hover:border-yellow-500/20 rounded-full flex items-center justify-center transition-all">
-             <span className="text-yellow-500 text-[10px] tracking-[1em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">Enter</span>
-          </div>
+
+      {/* LOGO MÒBIL — només es veu quan NO hi ha formulari */}
+      {!showForm && (
+        <div className="md:hidden mb-10">
+          <img 
+            src="/src/assets/logo_mobile/star-wars-logo-png.png"
+            alt="Star Wars Logo"
+            className="w-48 mx-auto object-contain"
+          />
         </div>
+      )}
+
+      {!showForm ? (
+   <div 
+  onClick={() => setShowForm(true)} 
+  className="cursor-pointer group flex flex-col items-center justify-start
+             mt-10 md:mt-110"
+>
+  <div
+    className="
+      w-48 h-20 
+      sm:w-64 sm:h-32 
+      border-2 border-yellow-500/20 
+      rounded-full flex items-center justify-center 
+      transition-all
+
+      /* Sempre visible en mòbil i desktop */
+      opacity-100
+
+      /* Glow suau + més intens en hover */
+      shadow-[0_0_12px_rgba(255,255,0,0.3)]
+      hover:shadow-[0_0_20px_rgba(255,255,0,0.6)]
+      hover:scale-105
+    "
+  >
+    <span
+      className="
+        text-yellow-500 
+        text-[9px] sm:text-[10px] 
+        tracking-[0.8em] sm:tracking-[1em] 
+        uppercase transition-all
+
+        /* Sempre visible */
+        opacity-100
+
+        /* Mòbil → groc més intens en tap */
+        active:text-yellow-300 active:scale-105
+      "
+    >
+      Enter
+    </span>
+  </div>
+</div>
+
+
       ) : (
-        <div className="z-20 animate-fade-in w-full max-w-sm px-6">
-          <form onSubmit={handleSubmit} className="space-y-4 bg-black/60 p-8 rounded-lg backdrop-blur-md border border-white/10">
-            <h2 className="text-white text-center text-xs tracking-[0.4em] uppercase mb-6">
+        <div className="z-20 animate-fade-in w-full max-w-xs sm:max-w-sm">
+          <form 
+            onSubmit={handleSubmit} 
+            className="
+              space-y-4 
+              bg-black/60 
+              p-6 sm:p-8 
+              rounded-lg 
+              backdrop-blur-md 
+              border border-white/10
+            "
+          >
+            <h2 className="text-white text-center text-xs tracking-[0.3em] sm:tracking-[0.4em] uppercase mb-6">
               {isRegistering ? 'New Cadet Registration' : 'Imperial Identity'}
             </h2>
 
-            {error && <p className="text-red-500 text-[10px] text-center uppercase mb-4 italic">{error}</p>}
+            {error && (
+              <p className="text-red-500 text-[10px] text-center uppercase mb-4 italic">
+                {error}
+              </p>
+            )}
 
             <input 
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="EMAIL"
-              className="w-full bg-transparent border-b border-zinc-700 py-2 text-white text-center focus:outline-none focus:border-yellow-500 text-sm"
+              className="
+                w-full bg-transparent 
+                border-b border-zinc-700 
+                py-2 text-white text-center 
+                focus:outline-none focus:border-yellow-500 
+                text-sm
+              "
               required
             />
 
@@ -85,11 +154,26 @@ export function WelcomePage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="PASSWORD"
-              className="w-full bg-transparent border-b border-zinc-700 py-2 text-white text-center focus:outline-none focus:border-yellow-500 text-sm"
+              className="
+                w-full bg-transparent 
+                border-b border-zinc-700 
+                py-2 text-white text-center 
+                focus:outline-none focus:border-yellow-500 
+                text-sm
+              "
               required
             />
-            
-            <button type="submit" className="w-full border border-yellow-500 text-yellow-500 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">
+
+            <button 
+              type="submit" 
+              className="
+                w-full border border-yellow-500 
+                text-yellow-500 py-3 
+                text-[10px] font-bold uppercase tracking-widest 
+                hover:bg-yellow-500 hover:text-black 
+                transition-all
+              "
+            >
               {isRegistering ? 'Create Account' : 'Login'}
             </button>
 
@@ -101,7 +185,14 @@ export function WelcomePage() {
               >
                 {isRegistering ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
               </button>
-              <button type="button" onClick={() => setShowForm(false)} className="text-zinc-600 text-[9px] uppercase hover:text-white">Back</button>
+
+              <button 
+                type="button" 
+                onClick={() => setShowForm(false)} 
+                className="text-zinc-600 text-[9px] uppercase hover:text-white"
+              >
+                Back
+              </button>
             </div>
           </form>
         </div>
