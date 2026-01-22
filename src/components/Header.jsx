@@ -15,7 +15,7 @@ export const Header = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      dispatch(logout());
+      dispatch(logout());1
       navigate('/');
     } catch (error) {
       console.error("Error tancant sessió:", error);
@@ -24,8 +24,8 @@ export const Header = () => {
 
   const socialLinks = {
     youtubekids: "https://www.youtube.com/starwars",
-    instagram: "https://instagram.com/starwars",
     facebook: "https://facebook.com/starwars",
+    instagram: "https://instagram.com/starwars",
     x: "https://x.com/starwars"
   };
 
@@ -54,7 +54,7 @@ export const Header = () => {
         <div className="flex justify-center">
           <Link to="/">
             <img 
-              src="/logo/STlogo-header.jpg"
+              src="/logo/star_wars_logo.png"
               alt="Star Wars" 
               className="w-52 h-auto object-contain hover:scale-105 transition-transform duration-300" 
             />
@@ -95,7 +95,7 @@ export const Header = () => {
         {/* Logo petit */}
         <Link to="/" className="flex justify-center flex-1">
           <img 
-            src="/logo/STlogo-header.jpg"
+            src="/logo/star_wars_logo.png"
             alt="Star Wars" 
             className="w-32 h-auto object-contain" 
           />
