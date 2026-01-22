@@ -8,10 +8,16 @@ export const StarshipCard = ({ id, name, model }) => {
     <Link
       to={`/starships/${id}`}
       state={{ image: imageURL }}
-      className="flex bg-zinc-900 rounded hover:bg-zinc-800 transition-all border border-zinc-800 hover:border-zinc-600 mb-4 overflow-hidden group"
+      // block: assegura que el Link ocupi l'espai i permeti transformacions
+      // transition-transform: especifiquem què volem animar
+      // duration-300: temps de l'animació
+      className="flex bg-black rounded mb-6 overflow-visible group border border-zinc-800 
+                 transition-all duration-300 ease-in-out transform
+                 hover:scale-[1.05] hover:border-yellow-500/50 hover:z-50 relative
+                 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]"
     >
       {/* Contenidor de la imatge */}
-      <div className="shrink-0 w-32 sm:w-40 bg-zinc-950 flex items-center justify-center">
+      <div className="shrink-0 w-32 sm:w-40 bg-zinc-950 flex items-center justify-center border-r border-zinc-800">
         <img
           src={imageURL}
           alt={name}
@@ -24,11 +30,11 @@ export const StarshipCard = ({ id, name, model }) => {
       </div>
 
       {/* Contenidor de text */}
-      <div className="p-4 flex flex-col justify-center">
+      <div className="p-4 flex flex-col justify-center w-full bg-black">
         <h2 className="text-xl font-bold uppercase text-white group-hover:text-yellow-500 transition-colors">
           {name}
         </h2>
-        <p className="text-zinc-400 text-sm mt-1">{model}</p>
+        <p className="text-zinc-500 text-sm mt-1 uppercase tracking-widest">{model}</p>
       </div>
     </Link>
   );

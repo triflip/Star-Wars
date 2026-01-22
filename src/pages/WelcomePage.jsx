@@ -72,7 +72,7 @@ export function WelcomePage() {
    <div 
   onClick={() => setShowForm(true)} 
   className="cursor-pointer group flex flex-col items-center justify-start
-             mt-10 md:mt-110"
+             mt-10 md:mt-110 mr-18"
 >
   <div
     className="
