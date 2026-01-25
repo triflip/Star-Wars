@@ -1,14 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useAuthListener } from './hooks/useAuthListener';
-
-// Importa els teus components i pàgines
 import { Header } from './components/Header';
 import { WelcomePage } from './pages/WelcomePage';
 import StarshipsPage from './pages/StarshipsPage';
 import StarshipDetails from './pages/StarshipDetails';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
-// 1. El component Layout gestiona la part visual i el fons negre
+
 function Layout() {
   const location = useLocation();
   const showHeader = location.pathname !== '/';
@@ -28,7 +26,7 @@ function Layout() {
   );
 }
 
-// 2. El component App principal
+
 export default function App() {
   const { initializing } = useAuthListener();
 
