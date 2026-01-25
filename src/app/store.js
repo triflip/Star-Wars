@@ -5,6 +5,6 @@ import authReducer from '../features/auth/authSlice';
 export const store = configureStore({
     reducer: {
         starships: starshipsReducer,
-        auth: authReducer, //el registrrem
+        auth: authReducer, 
     },
 });
