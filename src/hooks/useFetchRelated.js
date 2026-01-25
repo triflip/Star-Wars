@@ -7,7 +7,6 @@ export const useFetchRelated = (urls) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Si no hi ha URLs, buidem les dades i sortim
     if (!urls || urls.length === 0) {
       setData([]);
       return;
@@ -16,11 +15,9 @@ export const useFetchRelated = (urls) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fem totes les crides en paral·lel per eficiència
-        const responses = await Promise.all(
+       const responses = await Promise.all(
           urls.map((url) => axios.get(url))
         );
-        // Extraiem només la part .data de cada resposta d'Axios
         setData(responses.map((res) => res.data));
         setError(null);
       } catch (err) {
@@ -32,7 +29,7 @@ export const useFetchRelated = (urls) => {
     };
 
     fetchData();
-  }, [urls]); // S'activa quan l'array d'URLs canvia (p.ex. en canviar de nau)
+  }, [urls]);
 
   return { data, loading, error };
 };

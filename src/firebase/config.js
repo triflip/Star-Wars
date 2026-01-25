@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth"; // Imprescindible per al Login/Registre
+import { getAuth } from "firebase/auth"; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyCPfwP04EGaEh5Mh6SFc_FDbieh2BpKURg",
@@ -11,8 +11,6 @@ const firebaseConfig = {
   measurementId: "G-35R4CRPLQY"
 };
 
-// Inicialitzem l'App
 const app = initializeApp(firebaseConfig);
 
-// Exportem el servei d'autenticació
 export const auth = getAuth(app);

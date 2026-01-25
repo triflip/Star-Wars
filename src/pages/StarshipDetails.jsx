@@ -26,10 +26,8 @@ function StarshipDetails() {
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-0 text-zinc-300">
       
-      {/* Grid Principal */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* COLUMNA ESQUERRA (Imatge) */}
         <div className="lg:col-span-1">
           <div className="bg-black rounded-lg border border-zinc-800 p-6 flex items-center justify-center shadow-2xl overflow-hidden sticky top-32">
             <img 
@@ -40,10 +38,8 @@ function StarshipDetails() {
           </div>
         </div>
 
-        {/* COLUMNA DRETA (Info, Pilots i Pelis) */}
         <div className="lg:col-span-2 space-y-4">
           
-          {/* Box de Dades Tècniques  */}
           <div className=" p-6 sm:p-8 rounded-lg border border-zinc-800 shadow-xl">
             <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-yellow-500 uppercase italic tracking-tighter">
               {ship.name}
@@ -85,10 +81,8 @@ function StarshipDetails() {
             </div>
           </div>
 
-          {/* Sub-grid per a Pilots i Pelis - ARA EN NEGRE PUR */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            {/* SECCIÓ PILOTS */}
             <section className="bg-black p-6 rounded-lg border border-zinc-800 shadow-lg">
               <h3 className="text-yellow-500 uppercase tracking-[0.2em] text-[10px] font-bold mb-6 border-b border-zinc-900 pb-3">Pilots</h3>
               {loadingPilots ? (
@@ -106,7 +100,6 @@ function StarshipDetails() {
               )}
             </section>
 
-            {/* SECCIÓ FILMS */}
             <section className="bg-black p-6 rounded-lg border border-zinc-800 shadow-lg">
               <h3 className="text-yellow-500 uppercase tracking-[0.2em] text-[10px] font-bold mb-6 border-b border-zinc-900 pb-3">Appearances</h3>
               {loadingFilms ? (
@@ -123,7 +116,6 @@ function StarshipDetails() {
             </section>
           </div>
 
-          {/* Botó Back al final per tancar la secció d'info */}
           <div className="pt-4">
             <button 
               onClick={() => navigate(-1)} 

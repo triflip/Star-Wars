@@ -56,8 +56,6 @@ export function WelcomePage() {
         px-4
       "
     >
-
-      {/* LOGO MÒBIL — només es veu quan NO hi ha formulari */}
       {!showForm && (
         <div className="md:hidden mb-10">
           <img 
@@ -81,11 +79,6 @@ export function WelcomePage() {
       border-2 border-yellow-500/20 
       rounded-full flex items-center justify-center 
       transition-all
-
-      /* Sempre visible en mòbil i desktop */
-      opacity-100
-
-      /* Glow suau + més intens en hover */
       shadow-[0_0_12px_rgba(255,255,0,0.3)]
       hover:shadow-[0_0_20px_rgba(255,255,0,0.6)]
       hover:scale-105

@@ -1,4 +1,3 @@
-// src/hooks/useAuthListener.js
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';

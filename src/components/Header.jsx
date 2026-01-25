@@ -5,7 +5,7 @@ import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
 
-// Subcomponent per no repetir codi de xarxes
+
 const SocialLinks = ({ links }) => (
   <div className="flex gap-6 text-zinc-500 text-lg">
     {Object.entries(links).map(([icon, url]) => (
@@ -48,15 +48,15 @@ export const Header = () => {
 
   return (
     <header className="text-white border-b border-zinc-800 bg-black/95 sticky top-0 z-50 backdrop-blur-sm">  
-      {/* TOP BAR — Desktop */}
+     
       <div className="hidden md:flex justify-between items-center px-10 py-6 max-w-7xl mx-auto">
         
-        {/* Esquerra: Xarxes */}
+      
         <div className="flex-1">
           <SocialLinks links={socialLinks} />
         </div>
 
-        {/* Centre: Logo */}
+      
         <div className="flex justify-center">
           <Link to="/">
             <img 
@@ -67,7 +67,7 @@ export const Header = () => {
           </Link>
         </div>
 
-        {/* Dreta: Auth amb el Pilot ben visible */}
+        
         <div className="flex-1 flex justify-end items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-zinc-400">
           {isLoggedIn ? (
             <>
@@ -87,7 +87,7 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* MOBILE HEADER */}
+    
       <div className="md:hidden flex justify-between items-center px-6 py-4">
         <button onClick={() => setIsOpen(!isOpen)} className="text-2xl text-zinc-300">☰</button>
         <Link to="/" className="flex justify-center flex-1">
@@ -96,14 +96,13 @@ export const Header = () => {
         <div className="w-6"></div>
       </div>
 
-      {/* Pilot sota el logo (només mòbil) */}
+      
       {isLoggedIn && (
         <p className="md:hidden text-center text-zinc-400 text-xs italic pb-2">
           Pilot: {user?.name}
         </p>
       )}
 
-      {/* NAV — Desktop */}
       <nav className="hidden md:block border-y border-zinc-800">
         <ul className="flex justify-center gap-8 text-[10px] font-bold tracking-[0.2em] uppercase py-4">
           <li>
@@ -119,7 +118,6 @@ export const Header = () => {
         </ul>
       </nav>
 
-      {/* MOBILE MENU */}
       {isOpen && (
         <div className="md:hidden bg-black border-t border-zinc-800 px-6 py-4 space-y-4">
           <NavLink to="/" onClick={() => setIsOpen(false)} className="block text-zinc-300 uppercase tracking-widest">Home</NavLink>
