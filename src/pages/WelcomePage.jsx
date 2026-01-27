@@ -1,20 +1,22 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
+import mobileBg from "../assets/background/movil_bg.png";
+import desktopBg from "../assets/background/dsk_bg.png";
 
-import { auth } from '../firebase/config';
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword 
-} from 'firebase/auth';
+import { auth } from "../firebase/config";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 export function WelcomePage() {
   const [showForm, setShowForm] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
@@ -28,38 +30,50 @@ export function WelcomePage() {
       let userCredential;
 
       if (isRegistering) {
-        userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
       } else {
-        userCredential = await signInWithEmailAndPassword(auth, email, password);
+        userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
       }
 
       const user = userCredential.user;
 
-      dispatch(login({ 
-        email: user.email, 
-        name: user.email.split('@')[0] 
-      }));
+      dispatch(
+        login({
+          email: user.email,
+          name: user.email.split("@")[0],
+        }),
+      );
 
-      navigate('/starships');
+      navigate("/starships");
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div 
+    <div
       className="
-        min-h-screen w-full flex flex-col items-center justify-center 
-        bg-black 
-        md:bg-[url('/src/assets/background/dsk_bg.png')]
-        md:bg-cover md:bg-center
-        px-4
-      "
+    min-h-screen w-full flex flex-col items-center justify-center
+    bg-black
+    md:bg-cover md:bg-center
+    px-4
+  "
+      style={{
+        backgroundImage: `url(${desktopBg})`,
+      }}
     >
       {!showForm && (
         <div className="md:hidden mb-10">
-          <img 
-            src="/src/assets/logo_mobile/star-wars-logo-png.png"
+          <img
+            src={mobileBg}
             alt="Star Wars Logo"
             className="w-48 mx-auto object-contain"
           />
@@ -67,13 +81,13 @@ export function WelcomePage() {
       )}
 
       {!showForm ? (
-   <div 
-  onClick={() => setShowForm(true)} 
-  className="cursor-pointer group flex flex-col items-center justify-start
+        <div
+          onClick={() => setShowForm(true)}
+          className="cursor-pointer group flex flex-col items-center justify-start
              mt-10 md:mt-110 mr-18"
->
-  <div
-    className="
+        >
+          <div
+            className="
       w-48 h-20 
       sm:w-64 sm:h-32 
       border-2 border-yellow-500/20 
@@ -83,9 +97,9 @@ export function WelcomePage() {
       hover:shadow-[0_0_20px_rgba(255,255,0,0.6)]
       hover:scale-105
     "
-  >
-    <span
-      className="
+          >
+            <span
+              className="
         text-yellow-500 
         text-[9px] sm:text-[10px] 
         tracking-[0.8em] sm:tracking-[1em] 
@@ -97,17 +111,15 @@ export function WelcomePage() {
         /* Mòbil → groc més intens en tap */
         active:text-yellow-300 active:scale-105
       "
-    >
-      Enter
-    </span>
-  </div>
-</div>
-
-
+            >
+              Enter
+            </span>
+          </div>
+        </div>
       ) : (
         <div className="z-20 animate-fade-in w-full max-w-xs sm:max-w-sm">
-          <form 
-            onSubmit={handleSubmit} 
+          <form
+            onSubmit={handleSubmit}
             className="
               space-y-4 
               bg-black/60 
@@ -118,7 +130,7 @@ export function WelcomePage() {
             "
           >
             <h2 className="text-white text-center text-xs tracking-[0.3em] sm:tracking-[0.4em] uppercase mb-6">
-              {isRegistering ? 'New Cadet Registration' : 'Imperial Identity'}
+              {isRegistering ? "New Cadet Registration" : "Imperial Identity"}
             </h2>
 
             {error && (
@@ -127,8 +139,8 @@ export function WelcomePage() {
               </p>
             )}
 
-            <input 
-              type="email" 
+            <input
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="EMAIL"
@@ -142,8 +154,8 @@ export function WelcomePage() {
               required
             />
 
-            <input 
-              type="password" 
+            <input
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="PASSWORD"
@@ -157,8 +169,8 @@ export function WelcomePage() {
               required
             />
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="
                 w-full border border-yellow-500 
                 text-yellow-500 py-3 
@@ -167,21 +179,23 @@ export function WelcomePage() {
                 transition-all
               "
             >
-              {isRegistering ? 'Create Account' : 'Login'}
+              {isRegistering ? "Create Account" : "Login"}
             </button>
 
             <div className="flex flex-col gap-2 mt-4">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => setIsRegistering(!isRegistering)}
                 className="text-zinc-400 text-[9px] uppercase tracking-widest hover:text-yellow-500"
               >
-                {isRegistering ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
+                {isRegistering
+                  ? "Already have an account? Login"
+                  : "Don't have an account? Sign Up"}
               </button>
 
-              <button 
-                type="button" 
-                onClick={() => setShowForm(false)} 
+              <button
+                type="button"
+                onClick={() => setShowForm(false)}
                 className="text-zinc-600 text-[9px] uppercase hover:text-white"
               >
                 Back
