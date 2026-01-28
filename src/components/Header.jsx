@@ -4,7 +4,8 @@ import { logout } from '../features/auth/authSlice';
 import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
-import logo from '../../public/logo/star_wars_logo.png'
+
+const logo = `${import.meta.env.BASE_URL}logo/star_wars_logo.png`;
 
 
 const SocialLinks = ({ links }) => (
@@ -17,7 +18,7 @@ const SocialLinks = ({ links }) => (
         rel="noreferrer"
         className="w-5 h-5 invert transition-transform duration-300 hover:scale-125"
       >
-        <img src={`/social-icons/${icon}.svg`} alt={icon} className="w-5 h-5" />
+        <img src={`${import.meta.env.BASE_URL}social-icons/${icon}.svg`} alt={icon} className="w-5 h-5" />
       </a>
     ))}
   </div>
@@ -92,7 +93,7 @@ export const Header = () => {
       <div className="md:hidden flex justify-between items-center px-6 py-4">
         <button onClick={() => setIsOpen(!isOpen)} className="text-2xl text-zinc-300">☰</button>
         <Link to="/" className="flex justify-center flex-1">
-          <img src="/logo/star_wars_logo.png" alt="Star Wars" className="w-32 h-auto object-contain" />
+          <img src={`${import.meta.env.BASE_URL}logo/star_wars_logo.png`} alt="Star Wars" className="w-32 h-auto object-contain" />
         </Link>
         <div className="w-6"></div>
       </div>

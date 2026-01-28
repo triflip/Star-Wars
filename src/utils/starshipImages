@@ -1,16 +1,19 @@
+const base = import.meta.env.BASE_URL;
+
 const starshipImages = [
-  '/src/assets/starships/starship1.png',
-  '/src/assets/starships/starship2.png',
-  '/src/assets/starships/starship3.png',
-  '/src/assets/starships/starship4.png',
-  '/src/assets/starships/starship5.png',
-  '/src/assets/starships/starship6.png',
-  '/src/assets/starships/starship7.png',
-  '/src/assets/starships/starship8.png',
+  `${base}starships/starship1.png`,
+  `${base}starships/starship2.png`,
+  `${base}starships/starship3.png`,
+  `${base}starships/starship4.png`,
+  `${base}starships/starship5.png`,
+  `${base}starships/starship6.png`,
+  `${base}starships/starship7.png`,
+  `${base}starships/starship8.png`,
 ];
 
 const getRandomImage = () => {
   const index = Math.floor(Math.random() * starshipImages.length);
   return starshipImages[index];
 };
+
 export default getRandomImage;

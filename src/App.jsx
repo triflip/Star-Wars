@@ -41,7 +41,7 @@ export default function App() {
   }
 
   return (
-    <Router>
+    <Router basename="/Star-Wars">
       <Layout />
     </Router>
   );
