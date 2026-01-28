@@ -4,6 +4,7 @@ import { logout } from '../features/auth/authSlice';
 import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
+import logo from '../../public/logo/star_wars_logo.png'
 
 
 const SocialLinks = ({ links }) => (
@@ -60,7 +61,7 @@ export const Header = () => {
         <div className="flex justify-center">
           <Link to="/">
             <img 
-              src="/logo/star_wars_logo.png"
+              src={logo}
               alt="Star Wars" 
               className="w-52 h-auto object-contain hover:scale-105 transition-transform duration-300" 
             />
