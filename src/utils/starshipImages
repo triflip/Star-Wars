@@ -8,7 +8,7 @@ const starshipImages = [
   '/src/assets/starships/starship7.png',
   '/src/assets/starships/starship8.png',
 ];
-[url('/src/assets/background/dsk_bg.png')]
+
 const getRandomImage = () => {
   const index = Math.floor(Math.random() * starshipImages.length);
   return starshipImages[index];

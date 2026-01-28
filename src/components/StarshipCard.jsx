@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import getRandomImage from '../utils/starshipImages';
-import { log } from 'firebase/firestore/pipelines';
+
 
 export const StarshipCard = ({ id, name, model }) => {
   const imageURL = getRandomImage();
-  console.log(imageURL);
+ 
   return (
     <Link
       to={`/starships/${id}`}
