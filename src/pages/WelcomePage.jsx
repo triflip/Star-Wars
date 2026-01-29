@@ -69,8 +69,8 @@ export function WelcomePage() {
       {!showForm ? (
    <div 
   onClick={() => setShowForm(true)} 
-  className="cursor-pointer group flex flex-col items-center justify-start
-             mt-10 md:mt-110 mr-18"
+    className="cursor-pointer group flex flex-col items-center justify-center
+               mt-10 md:mt-120 md:mr-18 w-full md:w-auto"
 >
   <div
     className="
@@ -82,20 +82,18 @@ export function WelcomePage() {
       shadow-[0_0_12px_rgba(255,255,0,0.3)]
       hover:shadow-[0_0_20px_rgba(255,255,0,0.6)]
       hover:scale-105
+      animate-pulse
     "
   >
     <span
       className="
         text-yellow-500 
         text-[9px] sm:text-[10px] 
-        tracking-[0.8em] sm:tracking-[1em] 
+        tracking-[0.3em] sm:tracking-[1em] 
         uppercase transition-all
-
-        /* Sempre visible */
         opacity-100
-
-        /* Mòbil → groc més intens en tap */
-        active:text-yellow-300 active:scale-105
+        active:text-yellow-00 active:scale-105
+       
       "
     >
       Enter
