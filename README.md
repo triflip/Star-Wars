@@ -1,39 +1,72 @@
-# 🌌 Star Wars Project - IT Academy
+# 🌌 Star Wars Project — IT Academy
 
-This is a React application that consumes the Star Wars API (SWAPI), allowing users to explore the saga's starships, view their details, and manage access through an authentication system.
+A React application that consumes the **Star Wars API (SWAPI)**, allowing users to explore starships from the saga, view detailed information, and access protected content through a Firebase authentication system.
 
-## 🚀 Demo
-You can see the application in action here: [https://triflip.github.io/Star-Wars/]
+Live demo:  
+👉 (https://triflip.github.io/Star-Wars/)
+
+
+---
+
+## ✨ Features
+
+- 🔐 **Authentication System** (Login & Register with Firebase)
+- 🚀 **Starships Explorer** (List + Detail View)
+- 🛰️ **Protected Routes** using React Router
+- 📦 **Global State Management** with Redux Toolkit
+- 🎨 **Custom UI** inspired by Star Wars (Tailwind + animations)
+- ⚡ **Fast Build** with Vite
+- 🧪 **Testing Suite** (Unit, Component & Integration)
+
+---
+
+## 🖼️ Screenshots
+
+> *(Add 2–3 images here: Welcome Page, Starships List, Starship Detail)*
 
 ---
 
 ## 🛠️ Technologies Used
 
-- **React** + **Vite** (Frontend)
-- **Redux Toolkit** (Global state management)
-- **React Router Dom** (Navigation and protected routes)
-- **Firebase** (Authentication and persistence)
-- **Styled Components** (Styling)
-- **Jest** & **React Testing Library** (Test suite)
+- **React** + **Vite**
+- **Redux Toolkit**
+- **React Router Dom**
+- **Firebase Authentication**
+- **Tailwind CSS**
+- **Jest** & **React Testing Library**
 
 ---
 
 ## 🧪 Testing
 
-A testing architecture has been implemented to ensure code stability:
+This project includes a testing architecture to ensure stability:
 
-- **Unit Testing**: Custom Hook tests (`useAuthListener`).
-- **Component Testing**: Rendering and interaction validation (`StarshipCard`).
-- **Integration Testing**: Security flow verification (`ProtectedRoute`).
+- **Unit Tests** → Custom hooks (`useAuthListener`)
+- **Component Tests** → UI rendering & interactions (`StarshipCard`)
+- **Integration Tests** → Authentication flow (`ProtectedRoute`)
 
-To run the tests:
+Run tests:
+
 ```bash
-npm  test 
+npm test
+📦 Local Installation
+bash
+# 1. Clone the repository
+git clone https://github.com/triflip/Star-Wars.git
 
----
+# 2. Install dependencies
+npm install
 
-## 📦 Local Installation 
-1- Clone the repository: git clone https://github.com/usuari/Star-Wars.git 
-2-Install the dependencies: npm install 
-3-Create a .env file with your Firebase keys. 
-4-Run the project: npm run dev
+# 3. Create a .env file with your Firebase keys
+VITE_FIREBASE_API_KEY=xxxx
+VITE_FIREBASE_AUTH_DOMAIN=xxxx
+...
+
+# 4. Run the project
+npm run dev
+🚀 Deployment
+This project is deployed using GitHub Pages through Vite’s configuration.
+
+👨‍💻 Author
+Project developed by Toni as part of the IT Academy program.
+Passionate about clean UI, animations, and building smooth user experiences.
