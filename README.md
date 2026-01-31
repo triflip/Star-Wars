@@ -1,16 +1,72 @@
-# React + Vite
+# 🌌 Star Wars Project — IT Academy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application that consumes the **Star Wars API (SWAPI)**, allowing users to explore starships from the saga, view detailed information, and access protected content through a Firebase authentication system.
 
-Currently, two official plugins are available:
+Live demo:  
+👉 (https://triflip.github.io/Star-Wars/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🔐 **Authentication System** (Login & Register with Firebase)
+- 🚀 **Starships Explorer** (List + Detail View)
+- 🛰️ **Protected Routes** using React Router
+- 📦 **Global State Management** with Redux Toolkit
+- 🎨 **Custom UI** inspired by Star Wars (Tailwind + animations)
+- ⚡ **Fast Build** with Vite
+- 🧪 **Testing Suite** (Unit, Component & Integration)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🖼️ Screenshots
+
+> *(Add 2–3 images here: Welcome Page, Starships List, Starship Detail)*
+
+---
+
+## 🛠️ Technologies Used
+
+- **React** + **Vite**
+- **Redux Toolkit**
+- **React Router Dom**
+- **Firebase Authentication**
+- **Tailwind CSS**
+- **Jest** & **React Testing Library**
+
+---
+
+## 🧪 Testing
+
+This project includes a testing architecture to ensure stability:
+
+- **Unit Tests** → Custom hooks (`useAuthListener`)
+- **Component Tests** → UI rendering & interactions (`StarshipCard`)
+- **Integration Tests** → Authentication flow (`ProtectedRoute`)
+
+Run tests:
+
+```bash
+npm test
+📦 Local Installation
+bash
+# 1. Clone the repository
+git clone https://github.com/triflip/Star-Wars.git
+
+# 2. Install dependencies
+npm install
+
+# 3. Create a .env file with your Firebase keys
+VITE_FIREBASE_API_KEY=xxxx
+VITE_FIREBASE_AUTH_DOMAIN=xxxx
+...
+
+# 4. Run the project
+npm run dev
+🚀 Deployment
+This project is deployed using GitHub Pages through Vite’s configuration.
+
+👨‍💻 Author
+Project developed by Toni as part of the IT Academy program.
+Passionate about clean UI, animations, and building smooth user experiences.
