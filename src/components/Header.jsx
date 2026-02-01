@@ -1,19 +1,9 @@
-<<<<<<< HEAD
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
-=======
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector} from 'react-redux';
-import { useState } from 'react';
-import { logout } from '../features/auth/authSlice';
-import { auth } from '../firebase/config';
-import { signOut } from 'firebase/auth';
-
->>>>>>> develop
 
 const logo = `${import.meta.env.BASE_URL}logo/star_wars_logo.png`;
 

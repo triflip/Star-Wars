@@ -56,15 +56,16 @@ export function WelcomePage() {
   };
 
   return (
-   <div
+  <div
   className="
     min-h-screen w-full flex flex-col items-center justify-center 
     bg-black 
-    md:bg-[url('/Star-Wars/background/dsk_bg.png')]
+    md:bg-[url('/public/background/dsk_bg.png')]
     md:bg-cover md:bg-center
     px-4
   "
 >
+
 
 
       {!showForm && (
