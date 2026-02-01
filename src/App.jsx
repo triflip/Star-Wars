@@ -1,7 +1,6 @@
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useAuthListener } from './hooks/useAuthListener';
 
-
 import { Header } from './components/Header';
 import { WelcomePage } from './pages/WelcomePage';
 import StarshipsPage from './pages/StarshipsPage';
@@ -40,9 +39,5 @@ export default function App() {
     );
   }
 
-  return (
-    <Router basename="/Star-Wars">
-      <Layout />
-    </Router>
-  );
+  return <Layout />;
 }
