@@ -125,7 +125,8 @@ export const Header = () => {
         <ul className="flex justify-center gap-8 text-[10px] font-bold tracking-[0.2em] uppercase py-4">
           <li>
             <NavLink
-              to={import.meta.env.BASE_URL}
+              to="/"
+              end
               className={({ isActive }) =>
                 `pb-4 border-b-2 transition-all duration-300 ${
                   isActive
