@@ -39,9 +39,5 @@ export default function App() {
     );
   }
 
-  return (
-    <Router>
-      <Layout />
-    </Router>
-  );
+  return <Layout />;
 }
