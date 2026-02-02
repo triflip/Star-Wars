@@ -140,7 +140,7 @@ export const Header = () => {
 
           <li>
             <NavLink
-              to={`${import.meta.env.BASE_URL}starships`}
+              to="/starships"
               className={({ isActive }) =>
                 `pb-4 border-b-2 transition-all duration-300 ${
                   isActive
