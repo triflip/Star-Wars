@@ -5,6 +5,7 @@ import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
 
+
 const logo = `${import.meta.env.BASE_URL}logo/star_wars_logo.png`;
 
 const SocialLinks = ({ links }) => (
@@ -38,7 +39,7 @@ export const Header = () => {
       await signOut(auth);
       dispatch(logout());
       setIsOpen(false);
-      navigate("/");
+      navigate(import.meta.env.BASE_URL);
     } catch (error) {
       console.error("Error tancant sessió:", error);
     }
@@ -62,7 +63,7 @@ export const Header = () => {
         </div>
 
         <div className="flex justify-center">
-          <Link to="/">
+          <Link to={import.meta.env.BASE_URL}>
             <img
               src={logo}
               alt="Star Wars"
@@ -84,7 +85,7 @@ export const Header = () => {
             </>
           ) : (
             <Link
-              to="/"
+              to={import.meta.env.BASE_URL}
               className="hover:text-white transition-colors"
             >
               <span className="text-zinc-700 mr-2">//</span> LOG IN
@@ -102,7 +103,7 @@ export const Header = () => {
           ☰
         </button>
 
-        <Link to="/" className="flex justify-center flex-1">
+        <Link to={import.meta.env.BASE_URL} className="flex justify-center flex-1">
           <img
             src={`${import.meta.env.BASE_URL}logo/star_wars_logo.png`}
             alt="Star Wars"
@@ -124,7 +125,7 @@ export const Header = () => {
         <ul className="flex justify-center gap-8 text-[10px] font-bold tracking-[0.2em] uppercase py-4">
           <li>
             <NavLink
-              to="/"
+              to={import.meta.env.BASE_URL}
               className={({ isActive }) =>
                 `pb-4 border-b-2 transition-all duration-300 ${
                   isActive
@@ -139,7 +140,7 @@ export const Header = () => {
 
           <li>
             <NavLink
-              to="/starships"
+              to={`${import.meta.env.BASE_URL}starships`}
               className={({ isActive }) =>
                 `pb-4 border-b-2 transition-all duration-300 ${
                   isActive
@@ -158,7 +159,7 @@ export const Header = () => {
       {isOpen && (
         <div className="md:hidden bg-black border-t border-zinc-800 px-6 py-4 space-y-4">
           <NavLink
-            to="/"
+            to={import.meta.env.BASE_URL}
             onClick={() => setIsOpen(false)}
             className="block text-zinc-300 uppercase tracking-widest"
           >
@@ -166,7 +167,7 @@ export const Header = () => {
           </NavLink>
 
           <NavLink
-            to="/starships"
+            to={`${import.meta.env.BASE_URL}starships`}
             onClick={() => setIsOpen(false)}
             className="block text-zinc-300 uppercase tracking-widest"
           >
