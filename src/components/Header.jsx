@@ -159,7 +159,7 @@ export const Header = () => {
       {isOpen && (
         <div className="md:hidden bg-black border-t border-zinc-800 px-6 py-4 space-y-4">
           <NavLink
-            to={import.meta.env.BASE_URL}
+            to="/"
             onClick={() => setIsOpen(false)}
             className="block text-zinc-300 uppercase tracking-widest"
           >
